@@ -1,26 +1,22 @@
 pipeline {
     agent any
     stages {
-        stage('Setup') {
+        stage('Checkout') {
             steps {
-                // Clean workspace
+            // Clean workspace
                 deleteDir()
+                checkout scm
             }
         }
         stage('Create virtual Environment') {
             steps {
-                sh '''#!/bin/bash
-                   python3 -m venv myenv
-                   source ./myenv/bin/activate
-                '''
+                sh 'python3 -m venv myenv'
+                sh '. myenv/bin/activate'
             }
         }
         stage('Install dependencies') {
             steps {
-                sh '''#!/bin/bash
-                   source ./myenv/bin/activate
-                   pip install -r requirements.txt
-                '''
+                sh 'pip install -r requirements.txt'
             }
         }
         stage('Run migrations') {
