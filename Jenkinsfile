@@ -19,7 +19,7 @@ pipeline {
             steps {
                 sh '''#!/bin/bash
                    source ./myenv/bin/activate
-                   pip install -r requirements.tx
+                   pip install -r requirements.txt
                 '''
             }
         }
