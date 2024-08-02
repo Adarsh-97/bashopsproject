@@ -5,15 +5,12 @@ pipeline {
             steps {
                 // Clean workspace
                 deleteDir()
-                
-                // Clone the repository
-                git 'https://github.com/Adarsh-97/bashopsproject.git'
             }
         }
         stage('Create virtual Environment') {
             steps {
                 sh '''#!/bin/bash
-                   python3 -m venv venv
+                   python3 -m venv myenv
                    source ./myenv/bin/activate
                 '''
             }
