@@ -18,8 +18,8 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 sh '''#!/bin/bash
-                   source ./venv/bin/activate
-                   pip install -r requirements.txt
+                   source ./myenv/bin/activate
+                   pip install -r requirements.tx
                 '''
             }
         }
