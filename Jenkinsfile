@@ -3,12 +3,12 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-            // Clean workspace
+                // Clean workspace
                 deleteDir()
                 checkout scm
             }
         }
-                stage('Create Virtual Environment') {
+        stage('Create Virtual Environment') {
             steps {
                 sh 'python3 -m venv myenv'
             }
@@ -16,7 +16,7 @@ pipeline {
         stage('Upgrade Pip') {
             steps {
                 sh '''
-                source ./myenv/bin/activate
+                source myenv/bin/activate
                 pip install --upgrade pip
                 '''
             }
@@ -24,22 +24,24 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                source ./myenv/bin/activate
+                source myenv/bin/activate
                 pip install -r requirements.txt
                 '''
-        stage('Run migrations') {
+            }
+        }
+        stage('Run Migrations') {
             steps {
-                sh '''#!/bin/bash
-                   source ./myenv/bin/activate
-                   python3 manage.py migrate
+                sh '''
+                source myenv/bin/activate
+                python3 manage.py migrate
                 '''
             }
         }
         stage('Run Tests') {
             steps {
-                sh '''#!/bin/bash
-                   source ./venv/bin/activate
-                   python3 manage.py test
+                sh '''
+                source myenv/bin/activate
+                python3 manage.py test
                 '''
             }
         }
