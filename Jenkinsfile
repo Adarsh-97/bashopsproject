@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Upgrade Pip') {
             steps {
-                sh '''
+                sh '''#!/bin/bash
                 source myenv/bin/activate
                 pip install --upgrade pip
                 '''
@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh '''
+                sh '''#!/bin/bash
                 source myenv/bin/activate
                 pip install -r requirements.txt
                 '''
@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Run Migrations') {
             steps {
-                sh '''
+                sh '''#!/bin/bash
                 source myenv/bin/activate
                 python3 manage.py migrate
                 '''
@@ -39,7 +39,7 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                sh '''
+                sh '''#!/bin/bash
                 source myenv/bin/activate
                 python3 manage.py test
                 '''
