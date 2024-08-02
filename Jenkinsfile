@@ -11,7 +11,7 @@ pipeline {
         stage('Create virtual Environment') {
             steps {
                 sh 'python3 -m venv myenv'
-                sh '. myenv/bin/activate'
+                sh 'chmod +x myenv/bin/activate'
             }
         }
         stage('Install dependencies') {
