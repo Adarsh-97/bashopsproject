@@ -8,17 +8,25 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Create virtual Environment') {
+                stage('Create Virtual Environment') {
             steps {
                 sh 'python3 -m venv myenv'
-                sh 'chmod +x myenv/bin/activate'
             }
         }
-        stage('Install dependencies') {
+        stage('Upgrade Pip') {
             steps {
-                sh 'myenv/bin/activate && pip install -r requirements.txt'
+                sh '''
+                source ./myenv/bin/activate
+                pip install --upgrade pip
+                '''
             }
         }
+        stage('Install Dependencies') {
+            steps {
+                sh '''
+                source ./myenv/bin/activate
+                pip install -r requirements.txt
+                '''
         stage('Run migrations') {
             steps {
                 sh '''#!/bin/bash
