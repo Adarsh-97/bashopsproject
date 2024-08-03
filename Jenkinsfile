@@ -52,14 +52,14 @@ pipeline {
             steps {
                 script {
                     def scannerHome = tool 'globalsonarqube'
-                    withSonarQubeEnv('sonarqube') { // 'sonarqube' is the name of your SonarQube server
+                    withSonarQubeEnv('sonarqube') {
                         sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
             }
         }
     }
-}
+
     post {
         always {
             echo 'Pipeline completed'
@@ -72,4 +72,3 @@ pipeline {
         }
     }
 }
-
