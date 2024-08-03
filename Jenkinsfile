@@ -51,14 +51,19 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    def scannerHome = tool name: 'sonarqube-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-                    withSonarQubeEnv('my-sonarqube-server') { // Ensure this matches the SonarQube server configuration name
-                        sh '''#!/bin/bash
-                        ${scannerHome}/bin/sonar-scanner
-                        '''
+                    def scannerHome = tool 'globalsonarqube'; // Name of your SonarQube Scanner tool
+                    withSonarQubeEnv('sonarqube') { // Name of your SonarQube server
+                        withEnv(["JAVA_HOME=/usr/lib/jvm/jdk-17.0.12"]) {
+                            sh "${scannerHome}/bin/sonar-scanner"
+                        }
                     }
                 }
             }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline completed'
         }
     }
 }
