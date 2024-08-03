@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     stages {
         stage('Checkout') {
             steps {
@@ -10,7 +11,9 @@ pipeline {
         }
         stage('Create Virtual Environment') {
             steps {
-                sh 'python3 -m venv myenv'
+                sh '''#!/bin/bash
+                python3 -m venv myenv
+                '''
             }
         }
         stage('Upgrade Pip') {
@@ -45,15 +48,16 @@ pipeline {
                 '''
             }
         }
-        
         stage('SonarQube Analysis') {
             steps {
-                sh '''def scannerHome = tool \'SonarScanner\';
-withSonarQubeEnv() {
-sh "${scannerHome}/bin/sonar-scanner"'''
-                
-             }
-
+                script {
+                    def scannerHome = tool 'SonarScanner'
+                    withSonarQubeEnv('MySonarQubeServer') { // Replace 'MySonarQubeServer' with your SonarQube server name
+                        sh '''#!/bin/bash
+                        ${scannerHome}/bin/sonar-scanner
+                        '''
+                    }
+                }
             }
         }
     }
