@@ -51,8 +51,8 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    def scannerHome = tool 'sonar-scanner'
-                    withSonarQubeEnv('sonar-scanner') { // Ensure 'MySonarQubeServer' matches the name of your SonarQube server
+                    def scannerHome = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+                    withSonarQubeEnv('sonar-scanner') { // Ensure this matches the SonarQube server configuration name
                         sh '''#!/bin/bash
                         ${scannerHome}/bin/sonar-scanner
                         '''
@@ -62,3 +62,4 @@ pipeline {
         }
     }
 }
+
