@@ -4,6 +4,9 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'my-django-app'
         DOCKER_TAG = 'latest'
+        DOCKER_REGISTRY = 'docker.io' // Docker Hub default registry
+        DOCKER_USERNAME = 'adarshtdocker' // Replace with your Docker Hub username
+        DOCKER_PASSWORD = 'Asdf@2425#' // Replace with your Docker Hub password
     }
 
     stages {
@@ -83,6 +86,22 @@ pipeline {
                         python3 manage.py test
                         '''
                     }
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    // Login to Docker Hub
+                    sh """
+                    echo ${DOCKER_PASSWORD} | docker login ${DOCKER_REGISTRY} -u ${DOCKER_USERNAME} --password-stdin
+                    """
+                    
+                    // Push the Docker image
+                    sh """
+                    docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                    docker push ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                    """
                 }
             }
         }
